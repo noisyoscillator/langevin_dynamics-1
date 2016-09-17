@@ -2,6 +2,8 @@
 langevin_dynamics
 ===============================
 
+In statistical physics, a Langevin equation (Paul Langevin, 1908) is a stochastic differential 
+equation describing the time evolution of a subset of the degrees of freedom. 
 
 .. image:: https://img.shields.io/pypi/v/langevin_dynamics.svg
         :target: https://pypi.python.org/pypi/langevin_dynamics
