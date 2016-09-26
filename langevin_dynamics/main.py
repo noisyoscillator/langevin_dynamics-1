@@ -47,7 +47,7 @@ a = (fs-fp+fn)/m
 # end of initialization
 
 # open output file
-out = open('tracjectory.txt','w')
+out = open('trajectory.txt','w')
 out.write('# output file for langevin dynamcis simulation\n# index time postion velocity\n')
 # print initial postion
 print('{:4} {:6} {:7.3f} {:11.7f} {:11.7f}'.format('0','0.00',x,v,p),file=out)
