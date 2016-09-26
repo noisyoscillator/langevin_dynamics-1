@@ -1,0 +1,14 @@
+# initial postion
+0
+# initial velocity
+0
+# time step interval
+0.001
+# mass
+2.5
+# solvent drag force coefficient
+0.5
+# total number of steps
+50000
+# temperature
+300
