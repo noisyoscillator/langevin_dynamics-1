@@ -40,7 +40,7 @@ index = pos_list.index(pos)
 fp = force[index]
 # calculate accelaretion
 a = (fs-fp+fn)/m
-# a = -fp/m # uesd to check energy conserving
+#a = -fp/m # uesd to check energy conserving
 
 # end of initialization
 
