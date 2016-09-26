@@ -38,6 +38,8 @@ pos_list = list(ref)
 pos = round(x,3)
 index = pos_list.index(pos)
 fp = force[index]
+# to get potential energy
+p = energy[index]
 # calculate accelaretion
 a = (fs-fp+fn)/m
 # a = -fp/m # uesd to check energy conserving
@@ -48,7 +50,7 @@ a = (fs-fp+fn)/m
 out = open('tracjectory.txt','w')
 out.write('# output file for langevin dynamcis simulation\n# index time postion velocity\n')
 # print initial postion
-print('{:4} {:6} {:7.3f} {:11.7f}'.format('0','0.00',x,v),file=out)
+print('{:4} {:6} {:7.3f} {:11.7f} {:11.7f}'.format('0','0.00',x,v,p),file=out)
 
 # begin the loop over all steps
 # using velocity verlet for dynamics
@@ -63,12 +65,15 @@ for i in range(0,N):
     pos = round(x,3)
     index = pos_list.index(pos)
     fp = force[index]
+    p = energy[index]
     a = (fs-fp+fn)/m
 #    a = -fp/m #   for testing purpose
     # update another half step velocity
     v = v + 0.5*a*dt
+    # to calculate total energy
+    e = 0.5*m*v**2 + p
     # write output
-    print('{:4d} {:6.3f} {:7.3f} {:11.7f}'.format(i+1,dt*(i+1),x,v),file=out)
+    print('{:4d} {:6.3f} {:7.3f} {:11.7f} {:11.7f}'.format(i+1,dt*(i+1),x,v,e),file=out)
 out.close()
 
 
