@@ -14,7 +14,7 @@ import unittest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from langevin_dynamics import langevin_dynamics
+from langevin_dynamics import main
 from langevin_dynamics import cli
 
 
