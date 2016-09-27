@@ -22,20 +22,17 @@ deploy:
   user: tautomer
   provider: pypi
 env:
-- TOXENV=py35
-- TOXENV=py34
-- TOXENV=py33
-- TOXENV=py27
-- TOXENV=py26
-- TOXENV=pypy
+        #- TOXENV=py35
+        #- TOXENV=py34
+        #- TOXENV=py33
+        #- TOXENV=py27
+        #- TOXENV=py26
+        #- TOXENV=pypy
 language: python
 python:
           # We don't actually use the Travis Python, but this keeps it organized.
-          #          - "2.6"
-          #          - "2.7"
           - "3.3"
           - "3.4"
-            #          - "3.5"
 install:
           - sudo apt-get update
           # We do this conditionally because it saves us some downloading if the
@@ -54,17 +51,13 @@ install:
           # Useful for debugging any issues with conda
           - conda info -a
          
-          # Replace dep1 dep2 ... with your dependencies
-          #          - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
-          #          - conda install --yes matplotlib pip numpy nose
           - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels coverage
           - source activate test-environment
           - pip install setuptools python-coveralls nose-cov
           - python setup.py install
           
 script:   
-          - nosetests ./langevin_dynamics --with-cov --cover-html 
-#- nosetests --with-cov --cov langevin_dynamics --cov-config .coveragerc --logging-level=INFO
+          - nosetests --with-cov --cov-config .coveragerc --cover-html
 
 after_success:
           - coveralls --config_file .coveragerc
