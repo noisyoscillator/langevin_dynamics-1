@@ -4,11 +4,23 @@ deploy:
     condition: $TOXENV == py27
     repo: tautomer/langevin_dynamics
     tags: true
-  distributions: sdist bdist_wheel
   password:
-    secure: oz6IJoRndqYcxKrLN/WSjpu3rAa7ks3WW3LObz0z6E1FmkGfPayH6ll4t9jIQpBH0kUpnDNUCDX7NElQ+wNyr55j8wzE2K9IHYwPoQRnHYrrRcnwnu1P519mzLv+w8m1ShQ6Kz0NDOwmFHwLpWgxHEC1NtHZA5Svs0uGAGJd6EszkwBXvP+PgJIXxwiuQAa4VAu/LJl0x5LxzXy9J3/og0TbSaixzCbMsMk29laQNjzEjtcEAcfievqcrK82OEHIJvkfiWgv4meFSH5VdWMPGXbexXYw0uZBKayZUhrDFFPi5UVqzB0Nwy3pXgzCWMYgoXI37HM6qMCVO9e7vIKyulgV4YQgEwdtk7O+Dx3OC94OwP5hOD7C5PwETXi+/W1JDxUeOfo0V6vCTRqGONyANV4EZf+JIt2k89FU4spzGrgTMCm0SIwS6P+OX+VYNefwEayj45STF3u5kFWtw1Wh1cBUPr56w2CPtma6CEl1raVsmyKW5TLefDPZ8yDrF7wXIC54/BbBOZVW+hudZVr0I1c0nF4on/11WZbyHwjhavGa9RIK3dTeqTPV7sFTftFaZqgjV7LenWTX9UKt89Amw7fU25Wu1vvYgp1290K52UgP5uGpKfCLYNq595WBf+M7A/+2VOloEovEpaj/ErGUOceh56gycujY/RdPUjtELdQ=
-  provider: pypi
+    secure: !!binary |
+      SDZxeGpXaFBrRnRKbkZjeEF0RlliUWI2WHpQY3czZHVLKzBGTEZ3T0RkN0RISGV1RENPM3htWXRR
+      eGdFWU05ODlMREVNQlNWUUFHdGkrUUpSVHhRWlRWb21QMDZzSzVueHdWZUgxa1pzTlhOQ3N4cXVt
+      cVJWZzNiNnZiMHIyWXZXcHJiNVpTNHFkZzBUTkJ4bnpjOFF5UG5uZFNnUm9hZDJFd1ZJWmxRT2dU
+      UnRUN0RFTVdoZ1FndGJzVFhnVjlmaUY5S3hqZ09VdElqdHBMT0tZeGdmSWdjTVkwK3dFZzc0d3FJ
+      TndIN2RjaE9hZGZ3aVBiWUN2SkNMNHpSYjBlSzVScm8xdldFNUdkMDFCTlRxdHl4NmNuaHoxbVhn
+      WjlyU3JZQlphVDBHR090YWtXa0FsWTJ4RjREbURId3ptazl3WVpKdjBSaTM1SGxXVlZrNm9RM0Q2
+      Q1NMeFRCaTFpUStxQXZodkhVeFgzSDdPeXBmZmc2UGZ5YkF3SzRSMzJXRFl3RTFRNDNaL004dVlS
+      R2lub1FzL0Y0YllUeDAzSllEejJQSU5KejFUWFhsTlZvQTB4OXZEYUNKSTM1QnlvUmRPTGE3ZGJ1
+      N0JocWFhVmNqeGpYOFRRaml5MXRzalR6TE1yL0Y5bkx0eXdmOE9acWNMeVlhNUQySEJTR2tlVUkr
+      RUdPR1laaDZxdkRyR3hrd28zUml6NUR4V1BTeXdNZUNVdDVJV05qajYzZkM3c2l0QnBVTk9oWTNt
+      eUdXY0NiY2JlQzNqSXZaZWdiR0I5bk9iODhtMjJUdGh4MDVuaWpISlJRSFRxMi8yZVNtRU1BOEZi
+      STJ0bk0yUlFlK2ZWcUNVTE5KOHE4enRvYmZiaUUyM1AzbUV1MDZYcWdGd3hLQ3VPMDZFMUVXUjQ9
+  distributions: sdist bdist_wheel
   user: tautomer
+  provider: pypi
 env:
 - TOXENV=py35
 - TOXENV=py34
@@ -16,16 +28,7 @@ env:
 - TOXENV=py27
 - TOXENV=py26
 - TOXENV=pypy
-install: pip install -U tox atlas numpy scipy matplotlib nose dateutil pandas statsmodels python-coveralls nose-cov
-         python setup.py install
+install: pip install -U tox numpy nose python-coveralls nose-cov
 language: python
 python: 3.5
 script: tox -e ${TOXENV}
-
-# Run test
- script:
-   - nosetests --with-cov --cov YOUR_PACKAGE_NAME_HERE --cov-config .coveragerc --logging-level=INFO
-
-# Calculate coverage
-after_success:
-   - coveralls --config_file .coveragerc
