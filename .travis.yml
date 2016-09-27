@@ -2,7 +2,7 @@
 python:
           # We don't actually use the Travis Python, but this keeps it organized.
           #          - "2.6"
-          #          - "2.7"
+          - "2.7"
           - "3.3"
           - "3.4"
           - "3.5"
@@ -33,4 +33,7 @@ install:
           - python setup.py install
           
 script:   
-          - nosetests --with-cov --cover-html #tox -e ${TOXENV}
+          - nosetests --with-cov --cov YOUR_PACKAGE_NAME_HERE --cov-config .coveragerc --logging-level=INFO
+
+after_success:
+          - coveralls --config_file .coveragerc
