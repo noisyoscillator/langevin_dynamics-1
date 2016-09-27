@@ -63,7 +63,7 @@ install:
           - python setup.py install
           
 script:   
-          - nosetests --with-cov --cov YOUR_PACKAGE_NAME_HERE --cov-config .coveragerc --logging-level=INFO
+          - nosetests --with-cov --cov langevin_dynamics --cov-config .coveragerc --logging-level=INFO
 
 after_success:
           - coveralls --config_file .coveragerc
