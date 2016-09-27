@@ -2,7 +2,7 @@
 python:
           # We don't actually use the Travis Python, but this keeps it organized.
           #          - "2.6"
-          - "2.7"
+          #          - "2.7"
           - "3.3"
           - "3.4"
           - "3.5"
@@ -27,8 +27,7 @@ install:
           # Replace dep1 dep2 ... with your dependencies
           #          - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
           #          - conda install --yes matplotlib pip numpy nose
-#         - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION tox numpy nose python-coveralls nose-cov
-          - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels coverage
+          - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels coverage
           - source activate test-environment
             #          - pip install setuptools python-coveralls tox nose-cov
           - python setup.py install
