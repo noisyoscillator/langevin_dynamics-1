@@ -40,7 +40,7 @@ L1 = max(pos_list)
 L2 = min(pos_list)
 L = L1 - L2
 if x > L1 or x < L2:
-     x = x%L
+     x = x%L - L/2
 # end of PBC
 pos = round(x,3)
 index = pos_list.index(pos)
@@ -66,7 +66,7 @@ for i in range(0,N):
     fn = random.gauss(0,sigma)
     fs = -lam*v
     if x > L1 or x < L2:
-        x= x%L
+        x= x%L - L/2
     pos = round(x,3)
     index = pos_list.index(pos)
     fp = force[index]
