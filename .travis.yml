@@ -28,7 +28,7 @@ env:
 - TOXENV=py27
 - TOXENV=py26
 - TOXENV=pypy
-install: pip3 install -U tox numpy nose python-coveralls nose-cov
+install: pip3 install tox numpy nose python-coveralls nose-cov
 language: python
 python: 3.5
 script: tox -e ${TOXENV}
