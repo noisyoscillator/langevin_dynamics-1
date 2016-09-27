@@ -10,5 +10,7 @@ def main(args=None):
     click.echo("See click documentation at http://click.pocoo.org/")
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
+#else:
+#    pass
