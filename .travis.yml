@@ -41,14 +41,6 @@ python:
           - "3.3"
           - "3.4"
           - "3.5"
-cache: apt
-addons:
-  apt:
-    packages:
-    - libatlas-dev
-    - libatlas-base-dev
-    - liblapack-dev
-    - gfortran
 install:
           - sudo apt-get update
           # We do this conditionally because it saves us some downloading if the
@@ -68,11 +60,12 @@ install:
           - conda info -a
          
           # Replace dep1 dep2 ... with your dependencies
-          - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
-          - source activate test-environment
-          - conda install --yes matplotlib pip numpy nose
-          - pip install setuptools python-coveralls tox nose-cov
+          #          - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
+          #          - conda install --yes matplotlib pip numpy nose
 #         - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION tox numpy nose python-coveralls nose-cov
+          - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels
+          - source activate test-environment
+          - pip install setuptools python-coveralls tox nose-cov
           - python setup.py install
           
 script: tox -e ${TOXENV}
