@@ -53,7 +53,7 @@ a = (fs-fp+fn)/m
 out = open('trajectory.txt','w')
 out.write('# output file for langevin dynamcis simulation\n# index time postion velocity\n')
 # print initial postion
-print('{:4} {:6} {:7.3f} {:11.7f}'.format('0','0.00',x,v),file=out)
+print('{:4} {:7} {:7.3f} {:11.7f}'.format('0','0.0000',x,v),file=out)
 
 # begin the loop over all steps
 # using velocity verlet for dynamics
@@ -74,7 +74,7 @@ for i in range(0,N):
     # update another half step velocity
     v = v + 0.5*a*dt
     # write output
-    print('{:4d} {:6.3f} {:7.3f} {:11.7f}'.format(i+1,dt*(i+1),x,v),file=out)
+    print('{:4d} {:7.4f} {:7.3f} {:11.7f}'.format(i+1,dt*(i+1),x,v),file=out)
 out.close()
 
 
