@@ -16,7 +16,16 @@ env:
 - TOXENV=py27
 - TOXENV=py26
 - TOXENV=pypy
-install: pip install -U tox
+install: pip install -U tox atlas numpy scipy matplotlib nose dateutil pandas statsmodels python-coveralls nose-cov
+         python setup.py install
 language: python
 python: 3.5
 script: tox -e ${TOXENV}
+
+# Run test
+ script:
+   - nosetests --with-cov --cov YOUR_PACKAGE_NAME_HERE --cov-config .coveragerc --logging-level=INFO
+
+# Calculate coverage
+after_success:
+   - coveralls --config_file .coveragerc
