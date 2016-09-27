@@ -36,11 +36,8 @@ ref, energy, force = pot[:, 1:].T
 pos_list = list(ref)
 # round to 3 decimals
 # apply periodic boundary conditions
-L1 = max(pos_list)
-L2 = min(pos_list)
-L = L1 - L2
-if x > L1 or x < L2:
-     x = x%L - L/2
+L = max(pos_list)
+x = x%L
 # end of PBC
 pos = round(x,3)
 index = pos_list.index(pos)
@@ -65,8 +62,7 @@ for i in range(0,N):
     # update force
     fn = random.gauss(0,sigma)
     fs = -lam*v
-    if x > L1 or x < L2:
-        x= x%L - L/2
+    x = x%L
     pos = round(x,3)
     index = pos_list.index(pos)
     fp = force[index]

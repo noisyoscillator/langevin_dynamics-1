@@ -15,6 +15,7 @@ from contextlib import contextmanager
 from click.testing import CliRunner
 
 from langevin_dynamics import main
+from langevin_dynamics import gen_pot
 from langevin_dynamics import cli
 
 
