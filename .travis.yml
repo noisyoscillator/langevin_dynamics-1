@@ -28,6 +28,7 @@ env:
 - TOXENV=py27
 - TOXENV=py26
 - TOXENV=pypy
+language: python
 python:
           # We don't actually use the Travis Python, but this keeps it organized.
           #          - "2.6"
