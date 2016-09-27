@@ -38,12 +38,12 @@ Features
   double well potential in chemistry. You can change a,b and c and the range in gen_pot.py to get your
   own potential file.
 
+* Periodic boundary conditions enabled.
 
 TODO
 ---------
 
 * Add a module to convert tracjectories into animation.
-* Add periodic boundary condition.
 
 Credits
 ---------

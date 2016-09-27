@@ -19,6 +19,6 @@ for i in range(-n+1,n):
     f = 4*a*c*x*(a*x**2-b)
 #    f.write(i,x,y,f)
 #    output.write(i,x,y,f)
-    print('{:4d} {:7.3f} {:10.7f} {:11.7f}'.format(i+n,x,y,f),file=output)
+    print('{:5d} {:7.3f} {:10.7f} {:11.7f}'.format(i+n,x,y,f),file=output)
 #    print('{}'.format(i),'{}'.format(x),'{}'.format(y),'{}'.format(f),file=output)
 #f.close()
