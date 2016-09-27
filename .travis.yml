@@ -63,7 +63,7 @@ install:
           - python setup.py install
           
 script:   
-          - nosetests --with-cov --cover-html 
+          - nosetests ./langevin_dynamics --with-cov --cover-html 
 #- nosetests --with-cov --cov langevin_dynamics --cov-config .coveragerc --logging-level=INFO
 
 after_success:
