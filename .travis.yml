@@ -41,6 +41,14 @@ python:
           - "3.3"
           - "3.4"
           - "3.5"
+cache: apt
+addons:
+  apt:
+    packages:
+    - libatlas-dev
+    - libatlas-base-dev
+    - liblapack-dev
+    - gfortran
 install:
           - sudo apt-get update
           # We do this conditionally because it saves us some downloading if the
