@@ -9,6 +9,6 @@
 # solvent drag force coefficient
 0.5
 # total number of steps
-50000
+50
 # temperature
 300

@@ -17,7 +17,17 @@ class langevin_dynamics():
         self.N = 0
         self.T = 0
 
-    def assignvalue(self,param):#
+    def assignvalue(self,param):
+
+        # I figure this is useful for the program
+        # but I cannot get 100% coverage with if
+
+        #number_types = (int, float)
+        #for i in (0,len(param)-1):
+        #  if isinstance(param[i], number_types):
+        #      continue
+        #  else:
+        #        raise ValueError
         #  initial position
         self.x = param[0]
         # initial velocity
@@ -32,6 +42,8 @@ class langevin_dynamics():
         self.N = int(param[5])
         # temperature
         self.T = param[6]
+        # for unittest purpose
+        return self.x
 
     def create_out(self):
         # open output file
@@ -64,6 +76,8 @@ class langevin_dynamics():
         self.fp = self.force[self.index]
         # calculate accelaretion
         self.a = (self.fs-self.fp+self.fn)/self.m
+        # for unittest purpose
+        return self.fs
 
     def dynamics(self):
         # initialization
