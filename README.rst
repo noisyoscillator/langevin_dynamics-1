@@ -11,8 +11,8 @@ equation describing the time evolution of a subset of the degrees of freedom.
 .. image:: https://img.shields.io/travis/tautomer/langevin_dynamics.svg
         :target: https://travis-ci.org/tautomer/langevin_dynamics
 
-.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=cov_test
-        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=cov_test
+.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=master
+        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=master
 
 .. image:: https://readthedocs.org/projects/langevin-dynamics/badge/?version=latest
         :target: https://langevin-dynamics.readthedocs.io/en/latest/?badge=latest
@@ -47,6 +47,7 @@ TODO
 ---------
 
 * Add a module to convert tracjectories into animation.
+* Need improve the whole strusture.
 
 Credits
 ---------

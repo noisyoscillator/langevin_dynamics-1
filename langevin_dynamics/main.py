@@ -100,4 +100,3 @@ pot = numpy.loadtxt('potential.txt',comments='#')
 # run dynamics
 lan.dynamics()
 
-
