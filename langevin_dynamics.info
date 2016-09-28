@@ -107,6 +107,8 @@ File: langevin_dynamics.info,  Node: Features,  Next: Note,  Up: langevin_dynami
 
    * Periodic boundary conditions enabled.
 
+   * For more information please check langevin_dynamics.info.
+
 
 File: langevin_dynamics.info,  Node: Note,  Next: TODO,  Prev: Features,  Up: langevin_dynamics
 
@@ -114,7 +116,7 @@ File: langevin_dynamics.info,  Node: Note,  Next: TODO,  Prev: Features,  Up: la
 ========
 
    * Please modify input under langevin_dynamcis folder before running
-     simulations
+     simulations.
 
 
 File: langevin_dynamics.info,  Node: TODO,  Next: Credits,  Prev: Note,  Up: langevin_dynamics
@@ -386,7 +388,7 @@ File: langevin_dynamics.info,  Node: Tips,  Prev: Pull Request Guidelines,  Up: 
 
 To run a subset of tests:
 
-    $ python -m unittest tests.test_langevin_dynamics
+    $ python3 -m unittest tests.test_langevin_dynamics
 
 
 File: langevin_dynamics.info,  Node: Indices and tables,  Prev: Contributing,  Up: Top
@@ -407,84 +409,84 @@ Node: Top372
 Ref: index doc617
 Ref: 0617
 Node: langevin_dynamics1094
-Ref: readme doc1195
-Ref: 11195
 Ref: readme welcome-to-langevin-dynamics-s-documentation1195
+Ref: 11195
+Ref: readme doc1195
 Ref: 21195
 Ref: readme langevin-dynamics1195
 Ref: 31195
 Node: Features1647
 Ref: readme features1733
 Ref: 41733
-Node: Note2274
-Ref: readme note2373
-Ref: 52373
-Node: TODO2481
-Ref: readme todo2579
-Ref: 62579
-Node: Credits2723
-Ref: readme credits2808
-Ref: 72808
-Ref: Credits-Footnote-13048
-Ref: Credits-Footnote-23093
-Node: Installation3148
-Ref: installation doc3251
-Ref: 83251
-Ref: installation installation3251
-Ref: 93251
-Node: Stable release3328
-Ref: installation stable-release3423
-Ref: a3423
-Ref: Stable release-Footnote-13822
-Ref: Stable release-Footnote-23847
-Node: From sources3914
-Ref: installation from-sources4009
-Ref: b4009
-Ref: installation python-installation-guide4009
-Ref: c4009
-Ref: From sources-Footnote-14461
-Ref: From sources-Footnote-24512
-Node: Usage4578
-Ref: usage doc4676
-Ref: d4676
-Ref: usage tarball4676
-Ref: e4676
-Ref: usage usage4676
-Ref: f4676
-Node: Contributing4763
-Ref: contributing contributing4867
-Ref: 104867
-Ref: contributing doc4867
-Ref: 114867
-Node: Types of Contributions5142
-Ref: contributing types-of-contributions5245
-Ref: 125245
-Node: Report Bugs5406
-Ref: contributing report-bugs5504
-Ref: 135504
-Node: Fix Bugs5835
-Ref: contributing fix-bugs5960
-Ref: 145960
-Node: Implement Features6120
-Ref: contributing implement-features6253
-Ref: 156253
-Node: Write Documentation6445
-Ref: contributing write-documentation6585
-Ref: 166585
-Node: Submit Feedback6819
-Ref: contributing submit-feedback6932
-Ref: 176932
-Node: Get Started!7343
-Ref: contributing get-started7478
-Ref: 187478
-Node: Pull Request Guidelines8765
-Ref: contributing pull-request-guidelines8882
-Ref: 198882
-Node: Tips9497
-Ref: contributing tips9593
-Ref: 1a9593
-Node: Indices and tables9694
-Ref: index indices-and-tables9784
-Ref: 1b9784
+Node: Note2338
+Ref: readme note2437
+Ref: 52437
+Node: TODO2546
+Ref: readme todo2644
+Ref: 62644
+Node: Credits2788
+Ref: readme credits2873
+Ref: 72873
+Ref: Credits-Footnote-13113
+Ref: Credits-Footnote-23158
+Node: Installation3213
+Ref: installation installation3316
+Ref: 83316
+Ref: installation doc3316
+Ref: 93316
+Node: Stable release3393
+Ref: installation stable-release3488
+Ref: a3488
+Ref: Stable release-Footnote-13887
+Ref: Stable release-Footnote-23912
+Node: From sources3979
+Ref: installation python-installation-guide4074
+Ref: b4074
+Ref: installation from-sources4074
+Ref: c4074
+Ref: From sources-Footnote-14526
+Ref: From sources-Footnote-24577
+Node: Usage4643
+Ref: usage usage4741
+Ref: d4741
+Ref: usage tarball4741
+Ref: e4741
+Ref: usage doc4741
+Ref: f4741
+Node: Contributing4828
+Ref: contributing contributing4932
+Ref: 104932
+Ref: contributing doc4932
+Ref: 114932
+Node: Types of Contributions5207
+Ref: contributing types-of-contributions5310
+Ref: 125310
+Node: Report Bugs5471
+Ref: contributing report-bugs5569
+Ref: 135569
+Node: Fix Bugs5900
+Ref: contributing fix-bugs6025
+Ref: 146025
+Node: Implement Features6185
+Ref: contributing implement-features6318
+Ref: 156318
+Node: Write Documentation6510
+Ref: contributing write-documentation6650
+Ref: 166650
+Node: Submit Feedback6884
+Ref: contributing submit-feedback6997
+Ref: 176997
+Node: Get Started!7408
+Ref: contributing get-started7543
+Ref: 187543
+Node: Pull Request Guidelines8830
+Ref: contributing pull-request-guidelines8947
+Ref: 198947
+Node: Tips9562
+Ref: contributing tips9658
+Ref: 1a9658
+Node: Indices and tables9760
+Ref: index indices-and-tables9850
+Ref: 1b9850
 
 End Tag Table
