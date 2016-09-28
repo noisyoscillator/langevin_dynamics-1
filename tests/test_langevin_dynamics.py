@@ -40,6 +40,12 @@ class TestLangevin_dynamics(unittest.TestCase):
         test = self.lan.initialization()
         self.assertEqual(test,0)
 
+    def test_fileopen(self):
+        test = self.lan.create_out()
+        value = "<_io.TextIOWrapper name='trajectory.txt' mode='w' encoding='UTF-8'>"
+        self.assertEqual(value,str(test))
+
+
 
 #    def test_command_line_interface(self):
 #        runner = CliRunner()

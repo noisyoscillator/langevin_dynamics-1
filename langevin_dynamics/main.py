@@ -50,6 +50,7 @@ class langevin_dynamics():
         self.out = open('trajectory.txt','w')
         # write header
         self.out.write('# output file for langevin dynamcis simulation\n# index  time     postion    velocity\n')
+        return self.out
 
     def write_out(self,index,time,posistion,velocity):
         print('{:5d} {:8.3f} {:10.5f} {:12.7f}'.format(index,time,posistion,velocity),file=self.out)
