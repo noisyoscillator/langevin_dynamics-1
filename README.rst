@@ -11,8 +11,8 @@ equation describing the time evolution of a subset of the degrees of freedom.
 .. image:: https://img.shields.io/travis/tautomer/langevin_dynamics.svg
         :target: https://travis-ci.org/tautomer/langevin_dynamics
 
-.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=unittest
-        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=unittest
+.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=master
+        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=master
 
 .. image:: https://readthedocs.org/projects/langevin-dynamics/badge/?version=latest
         :target: https://langevin-dynamics.readthedocs.io/en/latest/?badge=latest
@@ -39,7 +39,7 @@ Features
 
 * Potential is based on simply y = c[b-a(x-d)\ :sup:`2`\]\ :sup:`2`\, which is a good example of typical
   double well potential in chemistry. You can change a,b and c and the range in gen_pot.py to get your
-  own potential file.
+  own potential file. Parameter d is used to shift the origin of simulation box to zero.
 
 * Periodic boundary conditions enabled.
 
