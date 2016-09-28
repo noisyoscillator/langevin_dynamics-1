@@ -76,6 +76,7 @@ class langevin_dynamics():
         self.index = self.pos_list.index(self.pos)
         self.fp = self.force[self.index]
         self.p = self.energy[self.index]
+        self.e = 0.5*self.m*self.v**2 + self.p
         # calculate accelaretion
         self.a = (self.fs-self.fp+self.fn)/self.m
         # for unittest purpose
@@ -85,7 +86,7 @@ class langevin_dynamics():
         # initialization
         self.initialization()
         self.create_out()
-        self.write_out(0,0.000,self.x,self.v,p)
+        self.write_out(0,0.000,self.x,self.v,self.e)
         # begin the loop over all steps
         # using velocity verlet for dynamics
         for i in range(0,self.N):
