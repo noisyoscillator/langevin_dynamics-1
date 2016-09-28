@@ -42,11 +42,12 @@ Features
   own potential file. Parameter d is used to shift the origin of simulation box to zero.
 
 * Periodic boundary conditions enabled.
+* For more information please check langevin_dynamics.info.
 
 Note
 ----
 
-* Please modify input under langevin_dynamcis folder before running simulations
+* Please modify input under langevin_dynamcis folder before running simulations.
 
 TODO
 ---------
