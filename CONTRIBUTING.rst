@@ -111,4 +111,4 @@ Tips
 To run a subset of tests::
 
 
-    $ python -m unittest tests.test_langevin_dynamics
+    $ python3 -m unittest tests.test_langevin_dynamics

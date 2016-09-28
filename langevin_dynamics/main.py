@@ -6,74 +6,115 @@ import math
 import numpy
 import random
 
-# a stupid way of reading input quantities
-lines = [line.rstrip('\n') for line in open('input')]
-# initial position
-x = float(lines[1])
-# initial velocity
-v = float(lines[3])
-# time step interval
-dt = float(lines[5])
-# mass
-m = float(lines[7])
-# solvent drag force coefficient
-lam = float(lines[9])
-# total number of steps
-N = int(lines[11])
-# temperature
-T = float(lines[13])
+class langevin_dynamics():
 
-# initial solvent drag force
-fs = -lam*v
-# calculate standard deviation of noise
-sigma = math.sqrt(2*math.sqrt(lam)*T)
-# generate random noise
-fn = random.gauss(0,sigma)
-# initial potential force
+    def __init__(self):
+        self.x = 0
+        self.v = 0
+        self.dt = 0
+        self.m = 0
+        self.lam = 0
+        self.N = 0
+        self.T = 0
+
+    def assignvalue(self,param):
+
+        # I figure this is useful for the program
+        # but I cannot get 100% coverage with if
+
+        #number_types = (int, float)
+        #for i in (0,len(param)-1):
+        #  if isinstance(param[i], number_types):
+        #      continue
+        #  else:
+        #        raise ValueError
+        #  initial position
+        self.x = param[0]
+        # initial velocity
+        self.v = param[1]
+        # time step interval
+        self.dt = param[2]
+        # mass
+        self.m = param[3]
+        # solvent drag force coefficient
+        self.lam = param[4]
+        # total number of steps
+        self.N = int(param[5])
+        # temperature
+        self.T = param[6]
+        # for unittest purpose
+        return self.x
+
+    def create_out(self):
+        # open output file
+        self.out = open('trajectory.txt','w')
+        # write header
+        self.out.write('# output file for langevin dynamcis simulation\n# index  time     postion    velocity  energy\n')
+        return self.out
+
+    def write_out(self,index,time,posistion,velocity,energy):
+        print('{:5d} {:8.3f} {:10.5f} {:12.7f}{:12.7f}'.format(index,time,posistion,velocity,energy),file=self.out)
+
+    def initialization(self):
+        # assign initial values
+        self.assignvalue(param)
+        # initial solvent drag force
+        self.fs = -self.lam*self.v
+        # calculate standard deviation of noise
+        self.sigma = math.sqrt(2*math.sqrt(self.lam)*self.T)
+        # generate random noise
+        self.fn = random.gauss(0,self.sigma)
+        # initial potential force
+        self.ref, self.energy, self.force = pot[:, 1:].T
+        self.pos_list = list(self.ref)
+        # apply periodic boundary conditions
+        self.L = max(self.pos_list)
+        self.x = self.x%self.L
+        # end of PBC
+        # round to 3 decimals
+        self.pos = round(self.x,3)
+        self.index = self.pos_list.index(self.pos)
+        self.fp = self.force[self.index]
+        self.p = self.energy[self.index]
+        # calculate accelaretion
+        self.a = (self.fs-self.fp+self.fn)/self.m
+        # for unittest purpose
+        return self.fs
+
+    def dynamics(self):
+        # initialization
+        self.initialization()
+        self.create_out()
+        self.write_out(0,0.000,self.x,self.v,p)
+        # begin the loop over all steps
+        # using velocity verlet for dynamics
+        for i in range(0,self.N):
+            # update half-step velocity
+            self.v = self.v + 0.5*self.a*self.dt
+            # update position
+            self.x = self.x + self.v*self.dt
+            # update force
+            self.fn = random.gauss(0,self.sigma)
+            self.fs = -self.lam*self.v
+            self.x = self.x%self.L
+            self.pos = round(self.x,3)
+            self.index = self.pos_list.index(self.pos)
+            self.fp = self.force[self.index]
+            self.p = self.energy[self.index]
+            self.a = (self.fs-self.fp+self.fn)/self.m
+            # update another half step velocity
+            self.v = self.v + 0.5*self.a*self.dt
+            self.e = 0.5*self.m*self.v**2 + self.p
+            # write output
+            self.write_out(i+1,self.dt*(i+1),self.x,self.v,self.e)
+        self.out.close()
+
+# short form of the class
+lan = langevin_dynamics()
+# read input file
+param = numpy.loadtxt('input',comments='#')
 # read for potential energy file
-pot = numpy.loadtxt('potential.txt')
-ref, energy, force = pot[:, 1:].T
-pos_list = list(ref)
-# round to 3 decimals
-pos = round(x,3)
-index = pos_list.index(pos)
-fp = force[index]
-# to get potential energy
-p = energy[index]
-# calculate accelaretion
-a = (fs-fp+fn)/m
-# a = -fp/m # uesd to check energy conserving
-
-# end of initialization
-
-# open output file
-out = open('trajectory.txt','w')
-out.write('# output file for langevin dynamcis simulation\n# index time postion velocity\n')
-# print initial postion
-print('{:4} {:6} {:7.3f} {:11.7f} {:11.7f}'.format('0','0.00',x,v,p),file=out)
-
-# begin the loop over all steps
-# using velocity verlet for dynamics
-for i in range(0,N):
-    # update half-step velocity
-    v = v + 0.5*a*dt
-    # update position
-    x = x + v*dt
-    # update force
-    fn = random.gauss(0,sigma)
-    fs = -lam*v
-    pos = round(x,3)
-    index = pos_list.index(pos)
-    fp = force[index]
-    p = energy[index]
-    a = (fs-fp+fn)/m
-#    a = -fp/m #   for testing purpose
-    # update another half step velocity
-    v = v + 0.5*a*dt
-    # to calculate total energy
-    e = 0.5*m*v**2 + p
-    # write output
-    print('{:4d} {:6.3f} {:7.3f} {:11.7f} {:11.7f}'.format(i+1,dt*(i+1),x,v,e),file=out)
-out.close()
-
+pot = numpy.loadtxt('potential.txt',comments='#')
+# run dynamics
+lan.dynamics()
 
