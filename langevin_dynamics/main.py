@@ -49,11 +49,11 @@ class langevin_dynamics():
         # open output file
         self.out = open('trajectory.txt','w')
         # write header
-        self.out.write('# output file for langevin dynamcis simulation\n# index  time     postion    velocity  energy\n')
+        self.out.write('# output file for langevin dynamcis simulation\n# index  time     postion    velocity  energy  kinetic  potentail\n')
         return self.out
 
-    def write_out(self,index,time,posistion,velocity,energy):
-        print('{:5d} {:8.3f} {:10.5f} {:12.7f}{:12.7f}'.format(index,time,posistion,velocity,energy),file=self.out)
+    def write_out(self,index,time,posistion,velocity,energy,kinetic,potential):
+        print('{:5d} {:8.4f} {:10.5f} {:12.7f}{:13.7f}{:13.7f}{:13.7f}'.format(index,time,posistion,velocity,energy,kinetic,potential),file=self.out)
 
     def initialization(self):
         # assign initial values
@@ -76,9 +76,11 @@ class langevin_dynamics():
         self.index = self.pos_list.index(self.pos)
         self.fp = self.force[self.index]
         self.p = self.energy[self.index]
-        self.e = 0.5*self.m*self.v**2 + self.p
+        self.t = 0.5*self.m*self.v**2
+        self.e = self.t + self.p
         # calculate accelaretion
-        self.a = (self.fs-self.fp+self.fn)/self.m
+        #self.a = (self.fs-self.fp+self.fn)/self.m
+        self.a = (-self.fp)/self.m
         # for unittest purpose
         return self.fs
 
@@ -86,7 +88,7 @@ class langevin_dynamics():
         # initialization
         self.initialization()
         self.create_out()
-        self.write_out(0,0.000,self.x,self.v,self.e)
+        self.write_out(0,0.000,self.x,self.v,self.e,self.t,self.p)
         # begin the loop over all steps
         # using velocity verlet for dynamics
         for i in range(0,self.N):
@@ -102,12 +104,14 @@ class langevin_dynamics():
             self.index = self.pos_list.index(self.pos)
             self.fp = self.force[self.index]
             self.p = self.energy[self.index]
-            self.a = (self.fs-self.fp+self.fn)/self.m
+            #self.a = (self.fs-self.fp+self.fn)/self.m
+            self.a = (-self.fp)/self.m
             # update another half step velocity
             self.v = self.v + 0.5*self.a*self.dt
-            self.e = 0.5*self.m*self.v**2 + self.p
+            self.t = 0.5*self.m*self.v**2
+            self.e = self.t + self.p
             # write output
-            self.write_out(i+1,self.dt*(i+1),self.x,self.v,self.e)
+            self.write_out(i+1,self.dt*(i+1),self.x,self.v,self.e,self.t,self.p)
         self.out.close()
 
 # short form of the class
