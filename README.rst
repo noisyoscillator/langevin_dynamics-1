@@ -37,7 +37,7 @@ Features
 
 * Required input values are read from a file named input and output file is called trajectory.txt.
 
-* Potential is based on simply y = c(b-ax\ :sup:`2`\)\ :sup:`2`\, which is a good example of typical
+* Potential is based on simply y = c[b-a(x-d)\ :sup:`2`\]\ :sup:`2`\, which is a good example of typical
   double well potential in chemistry. You can change a,b and c and the range in gen_pot.py to get your
   own potential file.
 
@@ -46,8 +46,8 @@ Features
 TODO
 ---------
 
-* Add a module to convert tracjectories into animation.
-* Need improve the whole strusture.
+* Adding a module to convert tracjectories into animation.
+* Integration of main code and potential generating code.
 
 Credits
 ---------

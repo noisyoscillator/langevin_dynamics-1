@@ -21,20 +21,12 @@ deploy:
   distributions: sdist bdist_wheel
   user: tautomer
   provider: pypi
-env:
-        #- TOXENV=py35
-        #- TOXENV=py34
-        #- TOXENV=py33
-        #- TOXENV=py27
-        #- TOXENV=py26
-        #- TOXENV=pypy
 language: python
 python:
           # We don't actually use the Travis Python, but this keeps it organized.
           - "3.3"
           - "3.4"
 install:
-        #- sudo apt-get update
           # We do this conditionally because it saves us some downloading if the
           # version is the same.
           - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
