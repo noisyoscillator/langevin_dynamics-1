@@ -79,8 +79,8 @@ class langevin_dynamics():
         self.t = 0.5*self.m*self.v**2
         self.e = self.t + self.p
         # calculate accelaretion
-        #self.a = (self.fs-self.fp+self.fn)/self.m
-        self.a = (-self.fp)/self.m
+        self.a = (self.fs-self.fp+self.fn)/self.m
+        #self.a = (-self.fp)/self.m
         # for unittest purpose
         return self.fs
 
@@ -104,8 +104,8 @@ class langevin_dynamics():
             self.index = self.pos_list.index(self.pos)
             self.fp = self.force[self.index]
             self.p = self.energy[self.index]
-            #self.a = (self.fs-self.fp+self.fn)/self.m
-            self.a = (-self.fp)/self.m
+            self.a = (self.fs-self.fp+self.fn)/self.m
+            #self.a = (-self.fp)/self.m
             # update another half step velocity
             self.v = self.v + 0.5*self.a*self.dt
             self.t = 0.5*self.m*self.v**2

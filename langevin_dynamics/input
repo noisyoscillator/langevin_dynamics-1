@@ -1,9 +1,9 @@
 # initial postion
-10
+15.9
 # initial velocity
 0
 # time step interval
-0.0001
+0.001
 # mass
 2
 # solvent drag force coefficient
