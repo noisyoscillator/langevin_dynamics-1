@@ -2,7 +2,12 @@
 # Main code for a simple langevin dynamics simulation
 
 # import packages
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.cm as cm
+import time
 # solve path problem
 import sys
 import os
@@ -35,7 +40,21 @@ class LangevinDynamics():
         print('{:5d} {:7d} {:13.7f} {:13.7f} {:13.7f} {:13.7f}  {:13.7f}'.
               format(i_par, n_steps, position_x, position_y, velocity_x, velocity_y, currpot), file=out)
 
-    def init_force(self, out):
+    def init_plot(self,):
+        color = cm.rainbow(np.linspace(0, 1, self.np))
+        fig, ax = plt.subplots(1, 1)
+        ax.set_xlim(0, range_x)
+        ax.set_ylim(0, range_y)
+        return color, fig, ax
+
+    def draw_plot(self, ax, x, y, col):
+        ax.scatter(x, y, c=col)
+        #fig.canvas.restore_region(background)
+        #fig.draw_artist(ax)
+        #fig.canvas.blit(ax.bbox)
+        plt.pause(1e-6)
+
+    def init_force(self, out, fig, ax, color):
         f_tot_x = np.empty(self.np)
         f_tot_y = np.empty(self.np)
         curr_pot = np.empty(self.np)
@@ -43,9 +62,12 @@ class LangevinDynamics():
             f_tot_x[i], f_tot_y[i], curr_pot[i] =\
                 fe.update_force(self.velx[i], self.vely[i], self.posx[i], self.posy[i])
             self.write_out(out, i + 1, 0, self.posx[i], self.posy[i], self.velx[i], self.vely[i], curr_pot[i])
+            #ax.scatter(self.posx[i], self.posy[i], c=color[i])
+        #fig.canvas.draw()
+        #plt.ion()
         return f_tot_x, f_tot_y, curr_pot
 
-    def dynamics(self, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out):
+    def dynamics(self, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
         # initialization
         # begin the loop over all steps
         # using velocity verlet for dynamics
@@ -74,12 +96,12 @@ class LangevinDynamics():
                 self.vely[j] += 0.5 * a_y * dt
                 # write output
                 self.write_out(out, j + 1, i+1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
+                #self.draw_plot(ax, self.posx[j], self.posy[j], color[j])
         out.close()
-
-a = 1
-b = 1
-c = 1
-switch = 1
+tstart = time.time()
+a = 0.5
+b = 0.5
+c = 0.5
 # short form of the class
 iv = InitValues()
 # Initialization for all necessary quantities
@@ -91,5 +113,7 @@ fe = ForceEval(lam, T, arr_x, arr_y, d_x, d_y, n_y, k_pot, k_fx, k_fy, pot, fx, 
 # alias for dynamics function
 lan = LangevinDynamics(n_p, pos_x, pos_y, vel_x, vel_y)
 output = lan.create_out()
-f_tot_x, f_tot_y, curr_pot = lan.init_force(output)
-lan.dynamics(N, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, output)
+color, fig, ax = lan.init_plot()
+f_tot_x, f_tot_y, curr_pot = lan.init_force(output, fig, ax, color)
+lan.dynamics(N, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, output, ax, color)
+print(time.time() - tstart)

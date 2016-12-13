@@ -52,13 +52,13 @@ class InitValues:
         return pot, fx, fy, n_x, n_y, pos_x, pos_y, vel_x, vel_y, k_pot, k_fx, k_fy
 
     def assgin_pos(self, range_x, range_y, n_p):
-        pos_x = random.sample(range(0, int(range_x*n_p)), n_p)
+        pos_x = random.sample(range(0, int(100*n_p)), n_p)
         tmp1 = random.uniform(0, 1)
-        pos_x /= range_x + tmp1
+        pos_x %= range_x - tmp1
 
-        pos_y = random.sample(range(0, int(range_y*n_p)), n_p)
+        pos_y = random.sample(range(0, int(100*n_p)), n_p)
         tmp1 = random.uniform(0, 1)
-        pos_y /= range_y + tmp1
+        pos_y %= range_y - tmp1
         return pos_x, pos_y
 
     def assign_vel(self, n_p, t, m):
