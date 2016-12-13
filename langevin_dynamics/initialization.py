@@ -17,7 +17,8 @@ class InitValues:
         pass
 
     def read_input(self):
-        raw_data = np.genfromtxt('input', dtype=np.float32)
+        inp_file = dir_root + '/input'
+        raw_data = np.genfromtxt(inp_file, dtype=np.float32)
         # x range
         x = raw_data[0]
         # y range

@@ -5,6 +5,8 @@
 
 import numpy as np
 import os
+dir_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+
 
 class GeneratePotential:
 
@@ -24,9 +26,10 @@ class GeneratePotential:
         self.a = a
         self.b = b
         self.c = c
+        self.pot_file_path = dir_root + '/potential.txt'
 
     def gen_pot(self):
-        pot_file = os.path.isfile('potential.txt')
+        pot_file = os.path.isfile(self.pot_file_path)
         if pot_file:
             self.chk_existing()
         else:
@@ -34,16 +37,15 @@ class GeneratePotential:
         return self.pot, self.fx, self.fy, self.nx, self.ny
 
     def chk_existing(self):
-        pot_param = list(np.genfromtxt('potential.txt', max_rows=1))
+        pot_param = list(np.genfromtxt(self.pot_file_path, max_rows=1))
         param_arr = [self.x, self.y, self.dx, self.dy, self.a, self.b, self.c]
         if param_arr == pot_param:
-            raw_data = np.genfromtxt('potential.txt', usecols=(2, 3, 4), skip_header=3).T
+            raw_data = np.genfromtxt(self.pot_file_path, usecols=(2, 3, 4), skip_header=3).T
             self.pot = raw_data[0]
             self.fx = raw_data[1]
             self.fy = raw_data[2]
         else:
             self.get_new()
-
 
     def ep_fxn(self, var, var1):
         ep = self.c*np.sin(self.a*var**2 + self.b*var1**2)
@@ -59,7 +61,7 @@ class GeneratePotential:
         return force_p
 
     def get_new(self):
-        output = open('potential.txt', 'w')
+        output = open(self.pot_file_path, 'w')
         print('# Parameters used to generate this potential file are\n'
               '# x range, y range, delta x, delta y, c, a and b, respectively\n'
               '{} {} {} {} {} {} {}\n# index position potential force\n'
