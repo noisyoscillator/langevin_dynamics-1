@@ -45,7 +45,7 @@ install:
          
           - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels coverage
           - source activate test-environment
-          - pip install setuptools python-coveralls nose-cov
+          - pip install setuptools python-coveralls nose-cov numpy
           - python setup.py install
           
 script:   

@@ -3,6 +3,7 @@
 
 # import packages
 import numpy as np
+print(np.version.version)
 # solve path problem
 import sys
 import os
