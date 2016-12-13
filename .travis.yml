@@ -38,10 +38,9 @@ install:
           - conda update -q conda
           # Useful for debugging any issues with conda
           - conda info -a
-          - conda install -c anaconda numpy=1.11.2
-          - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels coverage
+          - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose pandas statsmodels coverage
           - source activate test-environment
-          - pip install setuptools python-coveralls nose-cov numpy
+          - pip install setuptools python-coveralls nose-cov
           - python setup.py install
           
 script:   

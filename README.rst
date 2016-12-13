@@ -3,31 +3,24 @@ langevin_dynamics
 ===============================
 
 In statistical physics, a Langevin equation (Paul Langevin, 1908) is a stochastic differential 
-equation describing the time evolution of a subset of the degrees of freedom. 
-
-.. image:: https://img.shields.io/pypi/v/langevin_dynamics.svg
-        :target: https://pypi.python.org/pypi/langevin_dynamics
+equation describing the time evolution of a subset of the degrees of freedom.
 
 .. image:: https://img.shields.io/travis/tautomer/langevin_dynamics.svg
         :target: https://travis-ci.org/tautomer/langevin_dynamics
 
-.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=master
-        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=master
+.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=dev
+        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=dev
 
-.. image:: https://readthedocs.org/projects/langevin-dynamics/badge/?version=latest
-        :target: https://langevin-dynamics.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/langevindynamics/badge/?version=latest
+        :target: http://langevindynamics.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-
-.. image:: https://pyup.io/repos/github/tautomer/langevin_dynamics/shield.svg
-     :target: https://pyup.io/repos/github/tautomer/langevin_dynamics/
-     :alt: Updates
 
 
 Python Boilerplate contains all the boilerplate you need to create a Python package.
 
 
 * Free software: MIT license
-* Documentation: https://langevin-dynamics.readthedocs.io.
+* Documentation: https://langevindynamics.readthedocs.io.
 
 
 Features
