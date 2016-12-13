@@ -1,7 +1,13 @@
-# initial postion
-10.3
-# initial velocity
-0
+# x range
+5
+# y range
+5
+# resolution on x axis
+0.01
+# resolution on x axis
+0.01
+# number of particles
+1
 # time step interval
 0.001
 # mass
@@ -9,6 +15,6 @@
 # solvent drag force coefficient
 0.5
 # total number of steps
-50000
+1e3
 # temperature
 300
