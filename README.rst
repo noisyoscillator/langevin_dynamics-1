@@ -8,8 +8,8 @@ equation describing the time evolution of a subset of the degrees of freedom.
 .. image:: https://img.shields.io/travis/tautomer/langevin_dynamics.svg
         :target: https://travis-ci.org/tautomer/langevin_dynamics
 
-.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=dev
-        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=dev
+.. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=master
+        :target: https://coveralls.io/github/tautomer/langevin_dynamics?branch=master
 
 .. image:: https://readthedocs.org/projects/langevindynamics/badge/?version=latest
         :target: http://langevindynamics.readthedocs.io/en/latest/?badge=latest
