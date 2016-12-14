@@ -52,6 +52,7 @@ TODO
 
 * Adding a module to convert tracjectories into gif to avoid performance issue.
 * Including more physical potentials, such as Lennard-Jones potential.
+* Re-structure the code to use higher level parallelism, and may introduce C/Fortran implementation for heavy computations.
 
 Credits
 ---------

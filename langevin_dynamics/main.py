@@ -91,7 +91,7 @@ class LangevinDynamics:
         #plt.ion()
         return f_tot_x, f_tot_y, curr_pot
 
-    def chk_pos(self, j, i, test):
+    def chk_pos(self, j):
         ind_ls = list(range(self.np))
         ind_ls.pop(j)
         for k in ind_ls:
@@ -106,7 +106,6 @@ class LangevinDynamics:
                     self.vely[j] = self.vely[k]
                     self.velx[k] = tmp
                     self.vely[k] = tmp1
-                    print(i+1, j+1, k+1, file=test)
 
     def dynamics(self, n_threads, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
         """
@@ -155,7 +154,6 @@ class LangevinDynamics:
         # initialization
         # begin the loop over all steps
         # using velocity verlet for dynamics
-        test = open('test.txt', 'w')
         # check number of particles each thread needs to handle
         if self.np % n_threads == 0:
             niter = self.np // n_threads
@@ -173,7 +171,7 @@ class LangevinDynamics:
             # usage of join may be wrong; did not found racing or overwriting issue
             t.join()
             for j in range(self.np):
-                self.chk_pos(j, i, test)
+                self.chk_pos(j)
                 # write output
                 self.write_out(out, j + 1, i + 1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
                 # for drawing purpose, fancy but greatly slow down the program
