@@ -5,7 +5,7 @@ langevin_dynamics
 In statistical physics, a Langevin equation (Paul Langevin, 1908) is a stochastic differential 
 equation describing the time evolution of a subset of the degrees of freedom.
 
-.. image:: https://img.shields.io/travis/tautomer/langevin_dynamics.svg
+.. image:: https://img.shields.io/travis/tautomer/langevin_dynamics.svg?branch=master
         :target: https://travis-ci.org/tautomer/langevin_dynamics
 
 .. image:: https://coveralls.io/repos/github/tautomer/langevin_dynamics/badge.svg?branch=master

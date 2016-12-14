@@ -33,6 +33,7 @@ class LangevinDynamics():
         :param vel_x: x velocity
         :param vel_y: y velocity
         """
+        self.r = 0.2 # tolerance radius
         self.np = n_p
         self.posx = pos_x
         self.posy = pos_y
@@ -89,6 +90,20 @@ class LangevinDynamics():
         #fig.canvas.draw()
         #plt.ion()
         return f_tot_x, f_tot_y, curr_pot
+
+    def chk_pos(self, j):
+        dis = np.sqrt(self.posx[j]**2 + self.posy[j]**2)
+        for k in range(self.np):
+            if j != k:
+                dis2 = np.sqrt(self.posx[k]**2 + self.posy[k]**2)
+                d = abs(dis2 - dis)
+                if d <= self.r:
+                    tmp = self.velx[j]
+                    tmp1 = self.vely[j]
+                    self.velx[j] = self.velx[k]
+                    self.vely[j] = self.vely[k]
+                    self.velx[k] = tmp
+                    self.vely[k] = tmp1
 
     def dynamics(self, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
         """
@@ -156,6 +171,7 @@ class LangevinDynamics():
             # usage of join may be wrong; did not found racing or overwriting issue
             t.join()
             for j in range(self.np):
+                self.chk_pos(j)
                 # write output
                 self.write_out(out, j + 1, i+1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
                 # for drawing purpose, fancy but greatly slow down the program
@@ -163,10 +179,12 @@ class LangevinDynamics():
                     #self.draw_plot(ax, self.posx[j], self.posy[j], color[j])
         out.close()
 
+tstart = time.time()
 # parameters for potential function
 a = 0.5
 b = 0.5
 c = 0.5
+test = 0
 # short form of the class InitValues
 iv = InitValues()
 # Initialization for all necessary quantities
@@ -185,4 +203,4 @@ color, fig, ax = lan.init_plot()
 f_tot_x, f_tot_y, curr_pot = lan.init_force(output, fig, ax, color)
 # main funtion for dynamics
 lan.dynamics(N, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, output, ax, color)
-
+print(time.time() - tstart)
