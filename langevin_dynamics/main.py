@@ -4,6 +4,7 @@
 # import packages
 import matplotlib
 matplotlib.use('TkAgg')
+import threading
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.cm as cm
@@ -68,33 +69,52 @@ class LangevinDynamics():
         return f_tot_x, f_tot_y, curr_pot
 
     def dynamics(self, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
+        def velocity_verlet(tid, niter, n_threads):
+            for i in range(niter):
+                j = i*n_threads + tid
+                if j > self.np - 1:
+                    pass
+                else:
+                    # calculate accelerations for both direction
+                    a_x = f_tot_x[j] / m
+                    a_y = f_tot_y[j] / m
+                    # update half-step velocity for x and y
+                    self.velx[j] += 0.5 * a_x * dt
+                    self.vely[j] += 0.5 * a_y * dt
+                    # update position for both x and y
+                    self.posx[j] += self.velx[j] * dt
+                    self.posy[j] += self.vely[j] * dt
+                    # apply PBC
+                    self.posx[j] %= range_x
+                    self.posy[j] %= range_y
+                    # update force
+                    f_tot_x[j], f_tot_y[j], curr_pot[j] =\
+                        fe.update_force(self.velx[j], self.vely[j], self.posx[j], self.posy[j])
+                    # calculate accelerations for both direction
+                    a_x = f_tot_x[j] / m
+                    a_y = f_tot_y[j] / m
+                    # update half-step velocity for x and y
+                    self.velx[j] += 0.5 * a_x * dt
+                    self.vely[j] += 0.5 * a_y * dt
+
+                    # write output
         # initialization
         # begin the loop over all steps
         # using velocity verlet for dynamics
+        n_threads = 4
+        if self.np % n_threads == 0:
+            niter = self.np // n_threads
+        else:
+            niter = self.np//n_threads + 1
+
         for i in range(nsteps):
+            tid = 0
+            for j in range(n_threads):
+                t = threading.Thread(target=velocity_verlet, args=(tid, niter, n_threads))
+                t.start()
+                tid += 1
+            t.join()
             for j in range(self.np):
-                # calculate accelerations for both direction
-                a_x = f_tot_x[j] / m
-                a_y = f_tot_y[j] / m
-                # update half-step velocity for x and y
-                self.velx[j] += 0.5 * a_x * dt
-                self.vely[j] += 0.5 * a_y * dt
-                # update position for both x and y
-                self.posx[j] += self.velx[j] * dt
-                self.posy[j] += self.vely[j] * dt
-                # apply PBC
-                self.posx[j] %= range_x
-                self.posy[j] %= range_y
-                # update force
-                f_tot_x[j], f_tot_y[j], curr_pot[j] =\
-                    fe.update_force(self.velx[j], self.vely[j], self.posx[j], self.posy[j])
-                # calculate accelerations for both direction
-                a_x = f_tot_x[j] / m
-                a_y = f_tot_y[j] / m
-                # update half-step velocity for x and y
-                self.velx[j] += 0.5 * a_x * dt
-                self.vely[j] += 0.5 * a_y * dt
-                # write output
                 self.write_out(out, j + 1, i+1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
                 #self.draw_plot(ax, self.posx[j], self.posy[j], color[j])
         out.close()

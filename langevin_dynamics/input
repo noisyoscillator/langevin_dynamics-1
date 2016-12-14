@@ -7,14 +7,14 @@
 # resolution on x axis
 0.1
 # number of particles
-1
+10
 # time step interval
 0.005
 # mass
-2
+5
 # solvent drag force coefficient
 0.3
 # total number of steps
-100
+1e4
 # temperature
 300
