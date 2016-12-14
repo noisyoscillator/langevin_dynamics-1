@@ -79,3 +79,4 @@ class GeneratePotential:
                 print('{:6.2f}{:6.2f}{:13.7f}{:13.7f}{:13.7f}'
                       .format(self.arr_x[i], self.arr_y[j], self.pot[ind], self.fx[ind], self.fy[ind]), file=output)
         output.close()
+

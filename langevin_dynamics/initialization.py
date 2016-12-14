@@ -3,6 +3,8 @@
 
 import numpy as np
 import random
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 # solve path problem
 import sys
 import os
@@ -68,6 +70,13 @@ class InitValues:
         return vel_x, vel_y
 
     def grid_interp(self, pot, fx, fy, n_x, n_y, dy):
+        def calc_slope(j):
+            ind = tmp + j
+            ind_k = ind - i
+            k_pot[ind_k] = pot[ind + 1] - pot[ind]
+            k_fx[ind_k] = fx[ind + 1] - fx[ind]
+            k_fy[ind_k] = fy[ind + 1] - fy[ind]
+
         size = n_x * (n_y-1)
         k_pot = np.empty(size)
         k_fx = np.empty(size)
@@ -84,3 +93,18 @@ class InitValues:
         k_fx /= dy
         k_fy /= dy
         return k_pot, k_fx, k_fy
+
+    def create_out(self):
+        # open output file
+        out = open('trajectory.txt', 'w')
+        # write header
+        print('# output file for Langevin dynamics simulation\n'
+              '# n_p   n_steps   position_x    position_y    velocity_x    velocity_y    curr_potential\n', file=out)
+        return out
+
+    def init_plot(self, n_p, range_x, range_y):
+        color = cm.rainbow(np.linspace(0, 1, n_p))
+        fig, ax = plt.subplots(1, 1)
+        ax.set_xlim(0, range_x)
+        ax.set_ylim(0, range_y)
+        return color, fig, ax

@@ -6,7 +6,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import numpy as np
-import matplotlib.cm as cm
+from multiprocessing import Pool
 import time
 # solve path problem
 import sys
@@ -20,32 +20,24 @@ from force_eval import ForceEval
 
 class LangevinDynamics():
 
-    def __init__(self, n_p, pos_x, pos_y, vel_x, vel_y):
+    def __init__(self, n_p, range_x, range_y, pos_x, pos_y, vel_x, vel_y, f_tot_x, f_tot_y, curr_pot, dt, m):
         self.np = n_p
+        self.x = range_x
+        self.y =range_y
         self.posx = pos_x
         self.posy = pos_y
         self.velx = vel_x
         self.vely = vel_y
+        self.f_x = f_tot_x
+        self.f_y = f_tot_y
+        self.pot = curr_pot
+        self.dt = dt
+        self.m = m
         pass
-
-    def create_out(self):
-        # open output file
-        out = open('trajectory.txt', 'w')
-        # write header
-        print('# output file for Langevin dynamics simulation\n'
-              '# n_p   n_steps   position_x    position_y    velocity_x    velocity_y    curr_potential\n', file=out)
-        return out
 
     def write_out(self, out, i_par, n_steps, position_x, position_y, velocity_x, velocity_y, currpot):
         print('{:5d} {:7d} {:13.7f} {:13.7f} {:13.7f} {:13.7f}  {:13.7f}'.
               format(i_par, n_steps, position_x, position_y, velocity_x, velocity_y, currpot), file=out)
-
-    def init_plot(self,):
-        color = cm.rainbow(np.linspace(0, 1, self.np))
-        fig, ax = plt.subplots(1, 1)
-        ax.set_xlim(0, range_x)
-        ax.set_ylim(0, range_y)
-        return color, fig, ax
 
     def draw_plot(self, ax, x, y, col):
         ax.scatter(x, y, c=col)
@@ -54,50 +46,52 @@ class LangevinDynamics():
         #fig.canvas.blit(ax.bbox)
         plt.pause(1e-6)
 
-    def init_force(self, out, fig, ax, color):
-        f_tot_x = np.empty(self.np)
-        f_tot_y = np.empty(self.np)
-        curr_pot = np.empty(self.np)
-        for i in range(self.np):
-            f_tot_x[i], f_tot_y[i], curr_pot[i] =\
-                fe.update_force(self.velx[i], self.vely[i], self.posx[i], self.posy[i])
-            self.write_out(out, i + 1, 0, self.posx[i], self.posy[i], self.velx[i], self.vely[i], curr_pot[i])
-            #ax.scatter(self.posx[i], self.posy[i], c=color[i])
-        #fig.canvas.draw()
-        #plt.ion()
-        return f_tot_x, f_tot_y, curr_pot
-
-    def dynamics(self, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
+    def dynamics(self, nsteps, out, ax, color):
         # initialization
         # begin the loop over all steps
         # using velocity verlet for dynamics
         for i in range(nsteps):
+            print(i)
+            if __name__ == '__main__':
+                with Pool(None) as p:
+                    result = np.asarray(p.map(self.velocity_verlet, list(range(self.np)))).T
+                self.velx = result[0]
+                self.vely = result[1]
+                self.posx = result[2]
+                self.posy = result[3]
+                self.f_x = result[4]
+                self.f_y = result[5]
+                self.pot = result[6]
             for j in range(self.np):
-                # calculate accelerations for both direction
-                a_x = f_tot_x[j] / m
-                a_y = f_tot_y[j] / m
-                # update half-step velocity for x and y
-                self.velx[j] += 0.5 * a_x * dt
-                self.vely[j] += 0.5 * a_y * dt
-                # update position for both x and y
-                self.posx[j] += self.velx[j] * dt
-                self.posy[j] += self.vely[j] * dt
-                # apply PBC
-                self.posx[j] %= range_x
-                self.posy[j] %= range_y
-                # update force
-                f_tot_x[j], f_tot_y[j], curr_pot[j] =\
-                    fe.update_force(self.velx[j], self.vely[j], self.posx[j], self.posy[j])
-                # calculate accelerations for both direction
-                a_x = f_tot_x[j] / m
-                a_y = f_tot_y[j] / m
-                # update half-step velocity for x and y
-                self.velx[j] += 0.5 * a_x * dt
-                self.vely[j] += 0.5 * a_y * dt
-                # write output
-                self.write_out(out, j + 1, i+1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
-                #self.draw_plot(ax, self.posx[j], self.posy[j], color[j])
+                self.write_out(out, j + 1, i+1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], self.pot[j])
         out.close()
+
+    def velocity_verlet(self, j):
+        # calculate accelerations for both direction
+        a_x = self.f_x[j] / self.m
+        a_y = self.f_y[j] / self.m
+        # update half-step velocity for x and y
+        self.velx[j] += 0.5 * a_x * self.dt
+        self.vely[j] += 0.5 * a_y * self.dt
+        # update position for both x and y
+        self.posx[j] += self.velx[j] * self.dt
+        self.posy[j] += self.vely[j] * self.dt
+        # apply PBC
+        self.posx[j] %= self.x
+        self.posy[j] %= self.y
+        # update force
+        self.f_x[j], self.f_y[j], self.pot[j] =\
+            fe.update_force(self.velx[j], self.vely[j], self.posx[j], self.posy[j])
+        # calculate accelerations for both direction
+        a_x = self.f_x[j] / self.m
+        a_y = self.f_y[j] / self.m
+        # update half-step velocity for x and y
+        self.velx[j] = self.velx[j] + 0.5 * a_x * self.dt
+        self.vely[j] += 0.5 * a_y * self.dt
+        return self.velx[j], self.vely[j], self.posx[j], self.posy[j], self.f_x[j], self.f_y[j], self.pot[j]
+        # write output
+
+        #self.draw_plot(ax, self.posx[j], self.posy[j], color[j])
 tstart = time.time()
 a = 0.5
 b = 0.5
@@ -108,12 +102,12 @@ iv = InitValues()
 range_x, range_y, d_x, d_y, n_p, dt, m, lam, N, T, arr_x, arr_y = iv.read_input()
 pot, fx, fy, n_x, n_y, pos_x, pos_y, vel_x, vel_y, k_pot, k_fx, k_fy\
     = iv.init_dyn(arr_x, arr_y, range_x, range_y, d_x, d_y, a, b, c, n_p, T, m)
+output = iv.create_out()
+color, fig, ax = iv.init_plot(n_p, range_x, range_y)
 # alias for force evaluation function
 fe = ForceEval(lam, T, arr_x, arr_y, d_x, d_y, n_y, k_pot, k_fx, k_fy, pot, fx, fy)
+f_tot_x, f_tot_y, curr_pot = fe.init_force(output, n_p, vel_x, vel_y, pos_x, pos_y, fig, ax, color)
 # alias for dynamics function
-lan = LangevinDynamics(n_p, pos_x, pos_y, vel_x, vel_y)
-output = lan.create_out()
-color, fig, ax = lan.init_plot()
-f_tot_x, f_tot_y, curr_pot = lan.init_force(output, fig, ax, color)
-lan.dynamics(N, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, output, ax, color)
+lan = LangevinDynamics(n_p, range_x, range_y, pos_x, pos_y, vel_x, vel_y, f_tot_x, f_tot_y, curr_pot, dt, m)
+lan.dynamics(N, output, ax, color)
 print(time.time() - tstart)

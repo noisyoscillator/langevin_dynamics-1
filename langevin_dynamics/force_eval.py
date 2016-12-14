@@ -75,3 +75,17 @@ class ForceEval:
         f_p_x = result[1]
         f_p_y = result[2]
         return curr_pot, f_p_x, f_p_y
+
+    def init_force(self, out, n_p, velx, vely, posx, posy, fig, ax, color):
+        f_tot_x = np.empty(n_p)
+        f_tot_y = np.empty(n_p)
+        curr_pot = np.empty(n_p)
+        for i in range(n_p):
+            f_tot_x[i], f_tot_y[i], curr_pot[i] =\
+                self.update_force(velx[i], vely[i], posx[i], posy[i])
+            print('{:5d} {:7d} {:13.7f} {:13.7f} {:13.7f} {:13.7f}  {:13.7f}'.
+                 format(i + 1, 0, posx[i], posy[i], velx[i], vely[i], curr_pot[i]), file=out)
+            #ax.scatter(self.posx[i], self.posy[i], c=color[i])
+        #fig.canvas.draw()
+        #plt.ion()
+        return f_tot_x, f_tot_y, curr_pot
