@@ -22,7 +22,7 @@ from initialization import InitValues
 from force_eval import ForceEval
 
 
-class LangevinDynamics():
+class LangevinDynamics:
 
     def __init__(self, n_p, pos_x, pos_y, vel_x, vel_y):
         """
@@ -91,21 +91,24 @@ class LangevinDynamics():
         #plt.ion()
         return f_tot_x, f_tot_y, curr_pot
 
-    def chk_pos(self, j):
-        dis = np.sqrt(self.posx[j]**2 + self.posy[j]**2)
-        for k in range(self.np):
-            if j != k:
-                dis2 = np.sqrt(self.posx[k]**2 + self.posy[k]**2)
-                d = abs(dis2 - dis)
-                if d <= self.r:
+    def chk_pos(self, j, i, test):
+        ind_ls = list(range(self.np))
+        ind_ls.pop(j)
+        for k in ind_ls:
+            if j < k:
+                dx = self.posx[j] - self.posx[k]
+                dy = self.posy[j] - self.posy[k]
+                dis = np.sqrt(dx*dx + dy*dy)
+                if dis <= self.r:
                     tmp = self.velx[j]
                     tmp1 = self.vely[j]
                     self.velx[j] = self.velx[k]
                     self.vely[j] = self.vely[k]
                     self.velx[k] = tmp
                     self.vely[k] = tmp1
+                    print(i+1, j+1, k+1, file=test)
 
-    def dynamics(self, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
+    def dynamics(self, n_threads, nsteps, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, out, ax, color):
         """
         dynamics code
         :param nsteps: number of steps
@@ -152,8 +155,7 @@ class LangevinDynamics():
         # initialization
         # begin the loop over all steps
         # using velocity verlet for dynamics
-        # number of threads to run
-        n_threads = 4
+        test = open('test.txt', 'w')
         # check number of particles each thread needs to handle
         if self.np % n_threads == 0:
             niter = self.np // n_threads
@@ -171,20 +173,22 @@ class LangevinDynamics():
             # usage of join may be wrong; did not found racing or overwriting issue
             t.join()
             for j in range(self.np):
-                self.chk_pos(j)
+                self.chk_pos(j, i, test)
                 # write output
-                self.write_out(out, j + 1, i+1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
+                self.write_out(out, j + 1, i + 1, self.posx[j], self.posy[j], self.velx[j], self.vely[j], curr_pot[j])
                 # for drawing purpose, fancy but greatly slow down the program
                 #if i % 50 == 0:
                     #self.draw_plot(ax, self.posx[j], self.posy[j], color[j])
         out.close()
+
 
 tstart = time.time()
 # parameters for potential function
 a = 0.5
 b = 0.5
 c = 0.5
-test = 0
+# number of threads to run
+n_threads = 8
 # short form of the class InitValues
 iv = InitValues()
 # Initialization for all necessary quantities
@@ -202,5 +206,5 @@ color, fig, ax = lan.init_plot()
 # initialize force
 f_tot_x, f_tot_y, curr_pot = lan.init_force(output, fig, ax, color)
 # main funtion for dynamics
-lan.dynamics(N, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, output, ax, color)
-print(time.time() - tstart)
+lan.dynamics(n_threads, N, f_tot_x, f_tot_y, curr_pot, m, dt, range_x, range_y, output, ax, color)
+print('run time for this program is {:7.2f} s'.format(time.time() - tstart))
