@@ -83,13 +83,13 @@ class InitValues:
         :return:
         """
         # n_p random integers
-        pos_x = np.asarray(random.sample(range(0, int(100*n_p)), n_p))
+        pos_x = random.sample(range(0, int(100*n_p)), n_p)
         # get a random number
         tmp1 = random.uniform(0, 1)
         # keep position in the range of x and looks "very random"
         pos_x %= range_x - tmp1
         # same procedure for y
-        pos_y = np.asarray(random.sample(range(0, int(100*n_p)), n_p))
+        pos_y = random.sample(range(0, int(100*n_p)), n_p)
         tmp1 = random.uniform(0, 1)
         pos_y %= range_y - tmp1
         return pos_x, pos_y
