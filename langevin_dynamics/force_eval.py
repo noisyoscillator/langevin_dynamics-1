@@ -46,6 +46,10 @@ class ForceEval:
         return drag_force_x, drag_force_y
 
     def ran_force(self):
+        """
+        get random force based on Gaussian distribution
+        :return:
+        """
         # calculate standard deviation of noise
         sigma = np.sqrt(2*np.sqrt(self.lam)*self.T)
         # generate random noise
@@ -54,23 +58,38 @@ class ForceEval:
         return f_ran_x, f_ran_y
 
     def pot_force(self, x, y):
+        """
+        get the force from potential
+        :param x:
+        :param y:
+        :return:
+        """
+        # check the indices of x and y (determine which box the particle is in)
         ind_x = x // self.dx
         ind_y = y // self.dy
+        # delta x with respect to lower bound
         delta_x = x % self.dx
         delta_y = x % self.dy
+        # indices of y values (i.e. potential and forces)
         ind_1 = int(ind_x*self.ny + ind_y)
         ind_2 = int((ind_x+1)*self.ny + ind_y)
+        # indices for derivatives of potential and forces
         ind_k_1 = int(ind_x*(self.ny-1) + ind_y)
         ind_k_2 = int((ind_x+1)*(self.ny-1) + ind_y)
+        # write all the bounds into lists (for loop usage)
         tmp = [self.kpot[ind_k_1], self.kfx[ind_k_1], self.kfy[ind_k_1]]
         tmp1 = [self.kpot[ind_k_2], self.kfx[ind_k_2], self.kfy[ind_k_2]]
         tmp2 = [self.pot[ind_1], self.fx[ind_1], self.fy[ind_1]]
         tmp3 = [self.pot[ind_2], self.fx[ind_2], self.fy[ind_2]]
         result = [None] * 3
+        # loop over potential and forces
         for i in range(3):
+            # 1d interpolation twice on x axis
             f_r1 = tmp[i]*delta_y + tmp2[i]
             f_r2 = tmp1[i]*delta_y + tmp3[i]
+            # interpolation on the second dimension
             result[i] = (f_r2-f_r1)/self.dx*delta_x + f_r1
+        # write back to three values
         curr_pot = result[0]
         f_p_x = result[1]
         f_p_y = result[2]

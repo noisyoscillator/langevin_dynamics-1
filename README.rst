@@ -26,15 +26,20 @@ Python Boilerplate contains all the boilerplate you need to create a Python pack
 Features
 --------
 
-* A simple python program for Lagevin equation simulation.
+* A simple python program for 2D many-particle Lagevin equation simulation.
 
 * Required input values are read from a file named input and output file is called trajectory.txt.
 
-* Potential is based on simply y = c[b-a(x-d)\ :sup:`2`\]\ :sup:`2`\, which is a good example of typical
-  double well potential in chemistry. You can change a,b and c and the range in gen_pot.py to get your
-  own potential file. Parameter d is used to shift the origin of simulation box to zero.
+* Potential is based on simply y = c*sin (a*x\ :sup:`2`\ + b*y\ :sup:`2`\), which may not be physical at all.
+  You can change a,b and c in main program to get your
+  own potential file.
 
 * Periodic boundary conditions enabled.
+
+* Paralleled main dynamics loop
+
+* Real-time display is added to the program. (Note: cause the program to become really slow.)
+
 * For more information please check langevin_dynamics.info.
 
 Note
@@ -45,8 +50,8 @@ Note
 TODO
 ---------
 
-* Adding a module to convert tracjectories into animation.
-* Integration of main code and potential generating code.
+* Adding a module to convert tracjectories into gif to avoid performance issue.
+* Including more physical potentials, such as Lennard-Jones potential.
 
 Credits
 ---------
